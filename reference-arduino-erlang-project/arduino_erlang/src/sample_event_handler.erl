@@ -1,21 +1,18 @@
 %%%-------------------------------------------------------------------
-%%% @author ahmad
-%%% @copyright (C) 2019, <COMPANY>
+%%% @author HIROE Shin <shin@HIROE-no-MacBook-Pro.local>
+%%% @copyright (C) 2013, HIROE Shin
 %%% @doc
-%%% Based on arduino-erlang firmata by
-%%% HIROE Shin <shin@HIROE-no-MacBook-Pro.local>
-%%% https://github.com/hiroeorz/arduino-erlang
+%%%
 %%% @end
-%%% Created : 20. Dec 2019 6:48 PM
+%%% Created : 19 Nov 2013 by HIROE Shin <shin@HIROE-no-MacBook-Pro.local>
 %%%-------------------------------------------------------------------
--module(firmata_event_handler).
--author("ahmad").
+-module(sample_event_handler).
 
 -behaviour(gen_event).
 
 %% gen_event callbacks
--export([init/1, handle_event/2, handle_call/2,
-	handle_info/2, terminate/2, code_change/3]).
+-export([init/1, handle_event/2, handle_call/2, 
+	 handle_info/2, terminate/2, code_change/3]).
 
 -define(SERVER, ?MODULE).
 
@@ -35,8 +32,8 @@
 %% @end
 %%--------------------------------------------------------------------
 init([]) ->
-	io:format("event handler start.~n"),
-	{ok, #state{}}.
+    error_logger:info_msg("event handler start.~n"),
+    {ok, #state{}}.
 
 %%--------------------------------------------------------------------
 %% @private
@@ -54,12 +51,12 @@ init([]) ->
 
 %% receive digital port(8bit) changed message.
 handle_event({digital_port_changed, PortNo, Status}, State) ->
-	io:format("digital changed(port:~w): ~p~n", [PortNo, Status]),
-	{ok, State};
+    error_logger:info_msg("digital changed(port:~w): ~p~n", [PortNo, Status]),
+    {ok, State};
 
 handle_event({analog_recv, PinNo, Val}, State) ->
-	io:format("analog recv(PinNo:~w): ~w~n", [PinNo, Val]),
-	{ok, State}.
+    error_logger:info_msg("analog recv(PinNo:~w): ~w~n", [PinNo, Val]),
+    {ok, State}.
 
 %%--------------------------------------------------------------------
 %% @private
@@ -75,8 +72,8 @@ handle_event({analog_recv, PinNo, Val}, State) ->
 %% @end
 %%--------------------------------------------------------------------
 handle_call(_Request, State) ->
-	Reply = ok,
-	{ok, Reply, State}.
+    Reply = ok,
+    {ok, Reply, State}.
 
 %%--------------------------------------------------------------------
 %% @private
@@ -92,7 +89,7 @@ handle_call(_Request, State) ->
 %% @end
 %%--------------------------------------------------------------------
 handle_info(_Info, State) ->
-	{ok, State}.
+    {ok, State}.
 
 %%--------------------------------------------------------------------
 %% @private
@@ -105,7 +102,7 @@ handle_info(_Info, State) ->
 %% @end
 %%--------------------------------------------------------------------
 terminate(_Reason, _State) ->
-	ok.
+    ok.
 
 %%--------------------------------------------------------------------
 %% @private
@@ -116,7 +113,7 @@ terminate(_Reason, _State) ->
 %% @end
 %%--------------------------------------------------------------------
 code_change(_OldVsn, State, _Extra) ->
-	{ok, State}.
+    {ok, State}.
 
 %%%===================================================================
 %%% Internal functions
