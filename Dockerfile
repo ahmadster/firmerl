@@ -62,3 +62,4 @@ EXPOSE 8080
 # execute the binary when the container is entered
 ENTRYPOINT ["/opt/app/bin/app"]
 CMD ["foreground"]
+#CMD ["console"]
