@@ -17,3 +17,6 @@ _build
 *.iml
 rebar3.crashdump
 *~
+
+# ui in separate repo
+priv/ui

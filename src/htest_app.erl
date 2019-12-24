@@ -17,9 +17,9 @@ start(_StartType, _StartArgs) ->
 
 	Router = cowboy_router:compile([
 		{'_', [
-			{"/", cowboy_static, {priv_file, htest, "index.html"}},
+			{"/", cowboy_static, {priv_file, htest, "ui/index.html"}},
 			{"/ws", ws, #{}},
-			{"/[...]", cowboy_static, {priv_dir, htest, "ui/dist"}}
+			{"/[...]", cowboy_static, {priv_dir, htest, "ui"}}
 		]}
 	]),
 	{ok, _} = cowboy:start_clear(http, [{port, 8080}], #{

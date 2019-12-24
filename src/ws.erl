@@ -22,38 +22,72 @@
 init(Req, Opts) -> {cowboy_websocket, Req, Opts}.
 
 websocket_init(State) ->
-	Devices = #{
+	_AlphaDevices = #{
 		<<"Red">> => #{
-			id => <<"572e2221-468e-4838-921b-4a74776e101d">>,
+			id => <<"Red">>,
+			name => <<"Red">>,
+			state => <<"">>,
+			kind => <<"led">>,
+			pin => 1
+		},
+		<<"Green">> => #{
+			id => <<"Green">>,
+			name => <<"Green">>,
+			state => <<"">>,
+			kind => <<"led">>,
+			pin => 2
+		},
+		<<"Orange">> => #{
+			id => <<"Orange">>,
+			name => <<"Orange">>,
+			state => <<"">>,
+			kind => <<"led">>,
+			pin => 3
+		},
+		<<"Siren">> => #{
+			id => <<"Siren">>,
+			name => <<"Siren">>,
+			state => <<"">>,
+			kind => <<"led">>,
+			pin => 5
+		}
+	},
+
+	_BetaDevices = #{
+		<<"Red">> => #{
+			id => <<"Red">>,
 			name => <<"Red">>,
 			state => <<"">>,
 			kind => <<"led">>,
 			pin => 3
 		},
 		<<"Green">> => #{
-			id => <<"717a2250-7e91-4b33-813a-886c97a073b1">>,
+			id => <<"Green">>,
 			name => <<"Green">>,
 			state => <<"">>,
 			kind => <<"led">>,
 			pin => 5
 		},
 		<<"Blue">> => #{
-			id => <<"f03d185b-0b35-40bb-8bde-c62a2ccc7ce0">>,
+			id => <<"Blue">>,
 			name => <<"Blue">>,
 			state => <<"">>,
 			kind => <<"led">>,
 			pin => 6
 		},
 		<<"RGB">> => #{
-			id => <<"a03d185b-0b35-40bb-8bde-c62a2ccc7ce0">>,
-			name => <<"RGB">>,
+			id => <<"RGB">>,
+			name => <<"Color">>,
 			state => <<"">>,
 			kind => <<"rgb">>,
-			rpin => 3,
-			gpin => 5,
-			bpin => 6
+			pins => #{
+				r => 3,
+				g => 5,
+				b => 6
+			}
 		}
 	},
+	Devices = _AlphaDevices,
 	Reply = #{
 		devices => Devices,
 		re => <<"devices">>
@@ -102,7 +136,7 @@ handle_request(#{
 	case maps:get(DeviceName, Devices, error) of
 		error -> reply(#{re => <<"error">>, error => <<"device unknown">>}, State);
 		Device ->
-			Colors = jsone:decode(Color),
+			Colors = jsone:decode(Color, [{keys, atom}]),
 %%			?LOG_INFO(#{what => "colors", colors => Colors, device => Device}),
 			do_command(rgb, Device#{color => Colors}, State)
 	end;
@@ -114,13 +148,15 @@ noreply(State) -> {[], State}.
 reply(Reply, State) -> {[{text, jsone:encode(Reply)}], State}.
 
 do_command(rgb, #{
-	rpin := RPin,
-	gpin := GPin,
-	bpin := BPin,
+	pins := #{
+		r := RPin,
+		g := GPin,
+		b := BPin
+	},
 	color := #{
-		<<"r">> := R,
-		<<"g">> := G,
-		<<"b">> := B
+		r := R,
+		g := G,
+		b := B
 	}
 } = _Device, State) ->
 	mc:pwm(RPin, R),
