@@ -3,13 +3,14 @@
 		{vsn, "0.1.0"},
 		{registered, []},
 		{mod, {htest_app, []}},
-		{applications,
-			[kernel,
-				stdlib,
-				cowboy,
-				jsone,
-				gen_serial
-			]},
+		{applications, [
+			kernel
+			, stdlib
+			, cowboy
+			, jsone
+			, jsonlog
+			, gen_serial
+		]},
 		{env, []},
 		{modules, []},
 
