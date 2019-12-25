@@ -23,6 +23,7 @@ RUN --mount=type=cache,id=apk,sharing=locked,target=/var/cache/apk \
 #
 ## build and cache dependencies as their own layer
 COPY rebar.config rebar.lock ./
+COPY _checkouts ./_checkouts
 RUN --mount=id=hex-cache,type=cache,sharing=locked,target=/root/.cache/rebar3 \
 	rebar3 compile
 
