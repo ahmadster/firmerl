@@ -6,6 +6,10 @@
        {ref,"2abd7efc1441b35ad9b839989351bc81befe633a"}},
   0},
  {<<"jsone">>,{pkg,<<"jsone">>,<<"1.5.2">>},0},
+ {<<"jsonlog">>,
+  {git,"https://github.com/ahmadster/jsonlog",
+       {ref,"f1fdb28cf2e53b85b318061b8a0f2f530d72eb44"}},
+  0},
  {<<"ranch">>,{pkg,<<"ranch">>,<<"1.7.1">>},1}]}.
 [
 {pkg_hash,[
